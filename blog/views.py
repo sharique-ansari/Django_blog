@@ -3,9 +3,11 @@ from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm,CommentForm
 from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
+def home(request):
+    return render(request,'blog/home.html')
 
 
 def post_list(request):
@@ -20,6 +22,7 @@ def post_detail(request,pk):
 
 
 @login_required
+@user_passes_test(lambda u: u.has_perm('blog.can_delete_Post'))
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -36,6 +39,7 @@ def post_new(request):
 
 
 @login_required
+@user_passes_test(lambda u: u.has_perm('blog.can_delete_Post'))
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -52,6 +56,7 @@ def post_edit(request, pk):
 
 
 @login_required
+@user_passes_test(lambda u: u.has_perm('blog.can_delete_Post'))
 def post_draft_list(request):
     posts=Post.objects.filter(published_date__isnull=True).order_by('created_date')
     for post in posts:
@@ -60,6 +65,7 @@ def post_draft_list(request):
 
 
 @login_required
+@user_passes_test(lambda u: u.has_perm('blog.can_delete_Post'))
 def post_publish(request,pk):
     post=get_object_or_404(Post,pk=pk)
     post.publish()
@@ -67,6 +73,7 @@ def post_publish(request,pk):
 
 
 @login_required
+@user_passes_test(lambda u: u.has_perm('blog.can_delete_Post'))
 def post_delete(request,pk):
     post=get_object_or_404(Post,pk=pk)
     post.delete()

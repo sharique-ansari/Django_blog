@@ -12,7 +12,7 @@
             <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
 
         {% endif %}
-        {% if user.is_authenticated %}
+        {% if perms.blog.can_delete_Post %}
              <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
              <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
 
@@ -24,7 +24,7 @@
     <hr>
         <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
         {% for comment in post.comments.all %}
-            {% if user.is_authenticated or comment.approved_comment %}
+            {% if perms.blog.can_delete_Post or comment.approved_comment %}
             <div class="comment">
                 <div class="date">
                     {{ comment.created_date }}

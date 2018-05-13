@@ -10,7 +10,7 @@
     </head>
     <body>
         <div class="page-header">
-            {% if user.is_authenticated %}
+            {% if perms.blog.can_delete_Post %}
                 <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
                 <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
                 <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
@@ -19,10 +19,11 @@
                 <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
 
             {% endif %}
+            <a href="{% url 'home' %}" class="top-menu"><span class="glyphicon glyphicon-home"></span></a>
 
 
 
-            <h1><a href="/">Shark's blog</a></h1>
+            <h1><a href="/blog">Shark's blog</a></h1>
         </div>
         <div class="content container">
             <div class="row">
