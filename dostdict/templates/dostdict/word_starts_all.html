@@ -1,0 +1,10 @@
+{% extends 'dostdict/base.html' %} }}
+{% load dict_extra %}
+{% block content %}
+    <h1>All words starting with '{{ words.0|index:0 }}'</h1>
+    {% for word in words %}
+        <div class="post">
+            <h3><a href="{% url 'word_detail' pk=word.pk %}">{{ word }}</a></h3>
+        </div>
+    {% endfor %}
+{% endblock %}
